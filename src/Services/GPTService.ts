@@ -4,32 +4,36 @@ import axios from "axios";
 
 class GPTService {
 
-  async getCompletion(prompt: any): Promise<QuestionModel[]>{
-
-    // API key:
-    const apiKey = appConfig.API_KEY;
+  public apiKey = appConfig.API_KEY; // API key:
   
-    // request body:
-    const body = {
+  async getCompletion(prompt: any): Promise<any> {
+
+    const body = { // Request body:
       prompt, // the prompt
-      model: "text-davinci-003", // GhatGPT algorithm
-      max_tokens: 2500 // max completion tokens
+      model: "text-davinci-003", // GPT algorithm
+      max_tokens: 2500, // max completion tokens
     };
 
+    // fetch the data:
     const response = await axios.post(appConfig.GPT_URL, body, {
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": "Bearer " + apiKey
-      }
+        Accept: "application/json",
+        Authorization: "Bearer " + this.apiKey,
+      },
     });
 
-    // extract the completion:
+    // extract the completion as a string:
     const completion = response.data.choices[0].text;
-  
-    // return completion:
-    return completion;
-  };
+
+    console.log(completion);
+    
+    // convert the completion string to a valid JSON format:
+    const questions: QuestionModel[] = JSON.parse(completion.replace(/'/g, '"'));
+
+    return questions;
+  }
+
   
 }
 

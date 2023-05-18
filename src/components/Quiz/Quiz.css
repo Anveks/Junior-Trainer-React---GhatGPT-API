@@ -5,3 +5,30 @@
   padding: 0;
   width: 60%;
 }
+
+form input {
+  padding: 5px;
+  border-radius: 3px;
+  border: transparent;
+}
+
+form button {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.questions{
+  width: 150%;
+  background-color: whitesmoke;
+  align-self: center;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.questions > ul {
+  cursor: pointer;
+}
+
+.questions > p {
+  text-align: center;
+}

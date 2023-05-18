@@ -12,13 +12,16 @@ function Quiz(): JSX.Element {
 
     const [questions, setQuestions] = useState<QuestionModel[]>([]);
 
+    const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
+
     function handleChange(e: any) {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
     async function generate(e: React.FormEvent<HTMLFormElement>) {
+
         e.preventDefault();
-        const prompt = `Write ${formData.questionsNum} job interview questions for ${formData.language} programming language. Each question should be suitable for ${formData.difficulty} level of programming. Add an answer. Return the data as if it was a response from a database where each object has questionId, question, answer.`;
+        const prompt = `Write ${formData.questionsNum} job interview questions for ${formData.language} programming language. Each question should be suitable for ${formData.difficulty} level of programming. Add an answer. Return the data as a valid JSON where each object has questionId, question, answer.`;
 
         const generatedQuestions = await chatGPTService.getCompletion(prompt.trim());
 
@@ -54,7 +57,12 @@ function Quiz(): JSX.Element {
                 {questions.length !== 0 ? (
                     <ul>
                         {questions.map((q) => (
-                            <li key={q.questionId}>{q.question}</li>
+                            <li key={q.questionId} onClick={() => setSelectedQuestion(q.questionId)}>
+                                {q.question}
+                                {selectedQuestion === q.questionId && (
+                                    <div>{q.answer}</div>
+                                )}
+                            </li>
                         ))}
                     </ul>
                 ) : (

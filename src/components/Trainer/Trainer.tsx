@@ -5,7 +5,7 @@ import "./Trainer.css";
 function Trainer(): JSX.Element {
     return (
         <div className="trainer">
-            <h2>Junoir Trainer</h2>
+            <h2>Junior Trainer</h2>
 
             <div className="menu">
                 <NavLink to="/quiz">Quiz</NavLink>
